@@ -1,0 +1,5 @@
+<launch>
+
+  <node type="rviz" name="rviz" pkg="rviz" args="-d $(find ros_pa4)/include/config/config.rviz" />
+<node type="finalbot4.py" name="my_toaster" pkg="ros_pa4"/>
+</launch>

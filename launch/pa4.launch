@@ -1,5 +1,35 @@
 <launch>
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="world_name" value="$(find ros_pa4)/bobbyfischerbot/gazebo/testworld.world"/>
+    <arg name="paused" value="false"/>
+    <arg name="use_sim_time" value="true"/>
+    <arg name="gui" value="true"/>
+    <arg name="recording" value="false"/>
+    <arg name="debug" value="false"/>
+  </include>
 
-  <node type="rviz" name="rviz" pkg="rviz" args="-d $(find ros_pa4)/include/config/config.rviz" />
-<node type="finalbot4.py" name="my_toaster" pkg="ros_pa4"/>
+  <node name="spawn_sdf" pkg="gazebo_ros" type="spawn_model" args="-file $(find ros_pa4)/bobbyfischerbot/my_robot/model.sdf -sdf -z 1 -model my_robot" />
+  <!-- Spawn a robot into Gazebo -->
+<!-- <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="$(find ros_pa4)/bobbyfischerbot/gazebo/testmodel.urdf " /> -->
+
+
+  <!-- <node type="rviz" name="rviz" pkg="rviz" args="-d $(find ros_pa4)/include/config/config.rviz" /> -->
+<!-- <node type="finalbot4.py" name="my_toaster" pkg="ros_pa4"/> -->
+
+
+
+<!-- rosrun gazebo_ros gazebo -->
+<!-- rosrun gazebo_ros gzserver -->
+<!-- rosrun gazebo_ros gzclient -->
+
 </launch>
+
+
+<!-- rosrun gazebo_ros gazebo
+rosrun gazebo_ros gzserver
+rosrun gazebo_ros gzclient
+rosrun gazebo_ros spawn_model
+rosrun gazebo_ros perf
+rosrun gazebo_ros debug -->
+<!-- /home/apollo/catkin_ws/my_robot
+cd ~/.gazebo/models/ -->

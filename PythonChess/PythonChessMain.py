@@ -119,7 +119,7 @@ class PythonChessMain:
 			self.AIpause = False
 
 		#create the gui object - didn't do earlier because pygame conflicts with any gui manager (Tkinter, WxPython...)
-        
+        # print("red")
         #NOTE: bypassed the GUI to always be text
         guitype = 'text'
         Gui = ChessGUI_text()

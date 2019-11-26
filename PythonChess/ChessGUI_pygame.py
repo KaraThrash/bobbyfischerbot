@@ -4,13 +4,13 @@
  File name: ChessGUI_pygame.py
  Description:  Uses pygame (http://www.pygame.org/) to draw the
 	chess board, as well as get user input through mouse clicks.
-	The chess tile graphics were taken from Wikimedia Commons, 
+	The chess tile graphics were taken from Wikimedia Commons,
 	http://commons.wikimedia.org/wiki/File:Chess_tile_pd.png
-	
+
  Copyright (C) 2009 Steve Osborne, srosborne (at) gmail.com
  http://yakinikuman.wordpress.com/
  """
- 
+
 import pygame
 import os
 from pygame.locals import *
@@ -33,7 +33,7 @@ class ChessGUI_pygame:
 		self.LoadImages(graphicStyle)
 		#pygame.font.init() - should be already called by pygame.init()
 		self.fontDefault = pygame.font.Font( None, 20 )
-		
+
 
 	def LoadImages(self,graphicStyle):
 		if graphicStyle == 0:
@@ -43,7 +43,7 @@ class ChessGUI_pygame:
 			self.cyan_square = pygame.image.load(os.path.join("images","cyan_square.png")).convert()
 			#"convert()" is supposed to help pygame display the images faster.  It seems to mess up transparency - makes it all black!
 			#And, for this chess program, the images don't need to change that fast.
-			self.black_pawn = pygame.image.load(os.path.join("images","blackPawn.png")) 
+			self.black_pawn = pygame.image.load(os.path.join("images","blackPawn.png"))
 			self.black_rook = pygame.image.load(os.path.join("images","blackRook.png"))
 			self.black_knight = pygame.image.load(os.path.join("images","blackKnight.png"))
 			self.black_bishop = pygame.image.load(os.path.join("images","blackBishop.png"))
@@ -60,7 +60,7 @@ class ChessGUI_pygame:
 			self.white_square = pygame.image.load(os.path.join("images","white_square.png")).convert()
 			self.brown_square = pygame.image.load(os.path.join("images","brown_square.png")).convert()
 			self.cyan_square = pygame.image.load(os.path.join("images","cyan_square.png")).convert()
-			
+
 			self.black_pawn = pygame.image.load(os.path.join("images","Chess_tile_pd.png")).convert()
 			self.black_pawn = pygame.transform.scale(self.black_pawn, (self.square_size,self.square_size))
 			self.black_rook = pygame.image.load(os.path.join("images","Chess_tile_rd.png")).convert()
@@ -92,14 +92,14 @@ class ChessGUI_pygame:
 		#prints a string to the area to the right of the board
 		self.textBox.Add(message)
 		self.textBox.Draw()
-		
+
 	def ConvertToScreenCoords(self,chessSquareTuple):
 		#converts a (row,col) chessSquare into the pixel location of the upper-left corner of the square
 		(row,col) = chessSquareTuple
 		screenX = self.boardStart_x + col*self.square_size
 		screenY = self.boardStart_y + row*self.square_size
 		return (screenX,screenY)
-		
+
 	def ConvertToChessCoords(self,screenPositionTuple):
 		#converts a screen pixel location (X,Y) into a chessSquare tuple (row,col)
 		#x is horizontal, y is vertical
@@ -108,8 +108,8 @@ class ChessGUI_pygame:
 		row = (Y-self.boardStart_y) / self.square_size
 		col = (X-self.boardStart_x) / self.square_size
 		return (row,col)
-		
-		
+
+
 	def Draw(self,board,highlightSquares=[]):
 		#self.textBox.Draw()
 		boardSize = len(board) #board should be square.  boardSize should be always 8 for chess, but I dislike "magic numbers" :)
@@ -132,7 +132,7 @@ class ChessGUI_pygame:
 		chessboard_obj = ChessBoard(0)#need a dummy object to access some of ChessBoard's methods....
 		color = (255,255,255)#white
 		antialias = 0
-		
+
 		#top and bottom - display cols
 		for c in range(boardSize):
 			for r in [-1,boardSize]:
@@ -142,7 +142,7 @@ class ChessGUI_pygame:
 				notation = chessboard_obj.ConvertToAlgebraicNotation_col(c)
 				renderedLine = self.fontDefault.render(notation,antialias,color)
 				self.screen.blit(renderedLine,(screenX,screenY))
-		
+
 		#left and right - display rows
 		for r in range(boardSize):
 			for c in [-1,boardSize]:
@@ -152,12 +152,12 @@ class ChessGUI_pygame:
 				notation = chessboard_obj.ConvertToAlgebraicNotation_row(r)
 				renderedLine = self.fontDefault.render(notation,antialias,color)
 				self.screen.blit(renderedLine,(screenX,screenY))
-				
+
 		#highlight squares if specified
 		for square in highlightSquares:
 			(screenX,screenY) = self.ConvertToScreenCoords(square)
 			self.screen.blit(self.cyan_square,(screenX,screenY))
-		
+
 		#draw pieces
 		for r in range(boardSize):
 			for c in range(boardSize):
@@ -186,7 +186,7 @@ class ChessGUI_pygame:
 					self.screen.blit(self.white_queen,(screenX,screenY))
 				if board[r][c] == 'wK':
 					self.screen.blit(self.white_king,(screenX,screenY))
-			
+
 		pygame.display.flip()
 
 	def EndGame(self,board):
@@ -200,7 +200,7 @@ class ChessGUI_pygame:
 				if e.type is QUIT:
 					pygame.quit()
 					exit()
-		
+
 	def GetPlayerInput(self,board,currentColor):
 		#returns ((from_row,from_col),(to_row,to_col))
 		fromSquareChosen = 0
@@ -220,7 +220,7 @@ class ChessGUI_pygame:
 				if e.type is QUIT: #the "x" kill button
 					pygame.quit()
 					exit()
-					
+
 			if not fromSquareChosen and not toSquareChosen:
 				self.Draw(board)
 				if squareClicked != []:
@@ -233,7 +233,7 @@ class ChessGUI_pygame:
 						if len(self.Rules.GetListOfValidMoves(board,currentColor,squareClicked))>0:
 							fromSquareChosen = 1
 							fromTuple = squareClicked
-						
+
 			elif fromSquareChosen and not toSquareChosen:
 				possibleDestinations = self.Rules.GetListOfValidMoves(board,currentColor,fromTuple)
 				self.Draw(board,possibleDestinations)
@@ -297,10 +297,9 @@ if __name__ == "__main__":
 				 ['e','e','e','e','e','e','e','e'],\
 				 ['wP','wP','wP','wP','wP','wP','wP','wP'],\
 				 ['wR','wT','wB','wQ','wK','wB','wT','wR']]
-				 
+
 	validSquares = [(5,2),(1,1),(1,5),(7,6)]
 
 	game = ChessGUI_pygame()
 	game.Draw(testBoard,validSquares)
 	game.TestRoutine()
-	

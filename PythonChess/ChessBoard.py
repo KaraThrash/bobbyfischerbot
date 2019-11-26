@@ -4,11 +4,11 @@
  File name: ChessBoard.py
  Description:  Board layout; contains what pieces are present
 	at each square.
-	
+
  Copyright (C) 2009 Steve Osborne, srosborne (at) gmail.com
  http://yakinikuman.wordpress.com/
  """
- 
+
 import string
 
 class ChessBoard:
@@ -21,7 +21,7 @@ class ChessBoard:
 						['e','e','e','e','e','e','e','e'],\
 						['e','e','e','e','e','e','e','e'],\
 						['e','e','e','e','e','e','e','e']]
-						
+
 		if setupType == 0:
 			self.squares[0] = ['bR','bT','bB','bQ','bK','bB','bT','bR']
 			self.squares[1] = ['bP','bP','bP','bP','bP','bP','bP','bP']
@@ -64,17 +64,17 @@ class ChessBoard:
 			self.squares[4] = ['e','e','bB','e','e','e','wR','e']
 			self.squares[5] = ['e','e','e','e','e','e','e','e']
 			self.squares[6] = ['e','e','e','e','e','e','e','e']
-			self.squares[7] = ['e','e','e','wK','wQ','e','wT','e']			
-			
+			self.squares[7] = ['e','e','e','wK','wQ','e','wT','e']
+
 	def GetState(self):
 		return self.squares
-		
-	def ConvertMoveTupleListToAlgebraicNotation(self,moveTupleList):	
+
+	def ConvertMoveTupleListToAlgebraicNotation(self,moveTupleList):
 		newTupleList = []
 		for move in moveTupleList:
 			newTupleList.append((self.ConvertToAlgebraicNotation(move[0]),self.ConvertToAlgebraicNotation(move[1])))
 		return newTupleList
-	
+
 	def ConvertSquareListToAlgebraicNotation(self,list):
 		newList = []
 		for square in list:
@@ -86,26 +86,26 @@ class ChessBoard:
 		#(row,col) format used in Python Chess code starts at (0,0) in the upper left.
 		#Algebraic notation starts in the lower left and uses "a..h" for the column.
 		return self.ConvertToAlgebraicNotation_row(row) + self.ConvertToAlgebraicNotation_col(col)
-	
+
 	def ConvertToAlgebraicNotation_row(self,row):
 		#(row,col) format used in Python Chess code starts at (0,0) in the upper left.
-		#Algebraic notation starts in the lower left and uses "a..h" for the column.	
+		#Algebraic notation starts in the lower left and uses "a..h" for the column.
 		B = ['8','7','6','5','4','3','2','1']
 		return B[row]
-		
+
 	def ConvertToAlgebraicNotation_col(self,col):
 		#(row,col) format used in Python Chess code starts at (0,0) in the upper left.
-		#Algebraic notation starts in the lower left and uses "a..h" for the column.	
+		#Algebraic notation starts in the lower left and uses "a..h" for the column.
 		A = ['a','b','c','d','e','f','g','h']
 		return A[col]
 
-		
+
 	def GetFullString(self,p):
 		if 'b' in p:
 			name = "black "
 		else:
 			name = "white "
-			
+
 		if 'P' in p:
 			name = name + "pawn"
 		if 'R' in p:
@@ -118,9 +118,9 @@ class ChessBoard:
 			name = name + "queen"
 		if 'K' in p:
 			name = name + "king"
-			
+
 		return name
-	
+
 	def MovePiece(self,moveTuple):
 		fromSquare_r = moveTuple[0][0]
 		fromSquare_c = moveTuple[0][1]
@@ -135,28 +135,28 @@ class ChessBoard:
 
 		fromPiece_fullString = self.GetFullString(fromPiece)
 		toPiece_fullString = self.GetFullString(toPiece)
-		
+
 		if toPiece == 'e':
 			messageString = fromPiece_fullString+ " moves from "+self.ConvertToAlgebraicNotation(moveTuple[0])+\
 						    " to "+self.ConvertToAlgebraicNotation(moveTuple[1])
 		else:
 			messageString = fromPiece_fullString+ " from "+self.ConvertToAlgebraicNotation(moveTuple[0])+\
 						" captures "+toPiece_fullString+" at "+self.ConvertToAlgebraicNotation(moveTuple[1])+"!"
-		
+
 		#capitalize first character of messageString
 		messageString = string.upper(messageString[0])+messageString[1:len(messageString)]
-		
+
 		return messageString
 
 if __name__ == "__main__":
-	
+
 	cb = ChessBoard(0)
 	board1 = cb.GetState()
 	for r in range(8):
 		for c in range(8):
 			print board1[r][c],
 		print ""
-		
+
 	print "Move piece test..."
 	cb.MovePiece(((0,0),(4,4)))
 	board2 = cb.GetState()

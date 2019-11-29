@@ -2,11 +2,12 @@
 <package format="2">
   <name>ros_pa4</name>
   <version>0.0.0</version>
-  <description>The ros_pa3 package</description>
+  <description>The ros_pa4 package</description>
 
   <!-- One maintainer tag required, multiple allowed, one person per tag -->
   <!-- Example:  -->
   <!-- <maintainer email="jane.doe@example.com">Jane Doe</maintainer> -->
+  <maintainer email="vikzilla18@gmail.com">Vikram Singh</maintainer>
 
 
 

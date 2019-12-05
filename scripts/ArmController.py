@@ -56,6 +56,7 @@ from geometry_msgs.msg import PoseArray, Pose
 
 ## END_SUB_TUTORIAL
 
+armInterface = None
 chessSquares = None
 subOnce = None
 
@@ -455,11 +456,23 @@ def getChessPoints():
     # Subscribe to the chess beacons
     subOnce = rospy.Subscriber("ChessBoardBeacons", PoseArray, chessPointCallback)
 
+def performMove(moveTuple):
+  global armInterface
+  global chessSquares
+  for move in moveTuple:
+    row = 7 - move[0]
+    col = 7 - move[1]
+    index = row * 8 + col;
+
+    armInterface.go_to_pose_goal(chessSquares[index])
+  armInterface.go_to_joint_state()
+
 def main():
   try:
-    print "============ Press `Enter` to begin the tutorial by setting up the moveit_commander (press ctrl-d to exit) ..."
-    raw_input()
-    tutorial = MoveGroupPythonIntefaceTutorial()
+    #print "============ Press `Enter` to begin the tutorial by setting up the moveit_commander (press ctrl-d to exit) ..."
+    #raw_input()
+    global armInterface
+    armInterface = MoveGroupPythonIntefaceTutorial()
 
     print "Gathering chess squares"
     getChessPoints()
@@ -468,14 +481,13 @@ def main():
     #raw_input()
     #tutorial.go_to_joint_state()
 
-    print "============ Press `Enter` to execute a movement using a pose goal ..."
-    raw_input()
-    global chessSquares
-    for square in chessSquares:
-        print "============ Press `Enter` to execute a movement using a pose goal ..."
-        raw_input()
-        tutorial.go_to_joint_state()
-        tutorial.go_to_pose_goal(square)
+    #print "============ Press `Enter` to execute a movement using a pose goal ..."
+    #raw_input()
+    #for square in chessSquares:
+        #print "============ Press `Enter` to execute a movement using a pose goal ..."
+        #raw_input()
+        #tutorial.go_to_joint_state()
+        #tutorial.go_to_pose_goal(square)
 
     #print "============ Press `Enter` to plan and display a Cartesian path ..."
     #raw_input()
